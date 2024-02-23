@@ -217,7 +217,8 @@ public class AtletaService {
             }
         } List<Atleta> listaPreSelecao = new ArrayList<>(preSelecao.values());
         // Especificar o caminho do arquivo de destino
-        String caminhoDestino = "/json/paris_feminino.json";
+        String diretorioAtual = System.getProperty("user.dir");
+        String caminhoDestino = diretorioAtual + "/src/main/resources/json/paris_feminino.json";
         // Escrever a lista de atletas pré-selecionados no arquivo JSON
         try {
             objectMapper.writeValue(new File(caminhoDestino), listaPreSelecao);
