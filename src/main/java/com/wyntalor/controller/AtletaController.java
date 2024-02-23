@@ -76,8 +76,8 @@ public class AtletaController {
 
     /**
      * Exercicio 5 media de BM por continente
-     * @param continente
-     * @param genero
+     * @param continente a
+     * @param genero a
      * @return atletaService.obterPaisMaiorMediaBMI(continente, genero);
      */
     @GetMapping("/pais-maior-media-bmi")
@@ -152,5 +152,33 @@ public class AtletaController {
     public HashMap<String, Atleta> preSelecaoParis() {
         return atletaService.preSelecaoParis();
     }
+
+    /**
+     * Exercicio 10 para adicionar uma atleta de atletismo  seguir o json no body:
+     * {
+     *   "height": 200,
+     *   "weight": 89,
+     *   "BMI": 23.1
+     * }
+     * @param atleta
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/adicionar-atleta-selecao-atletismo")
+    public ResponseEntity<String> adicionarAtletaSelecaoAtletismoBrasil(@RequestBody Atleta atleta) throws IOException {
+        // Defina o continente, país e gênero conforme necessário
+        atleta.setContinent("North America"); // Não entendi o motivo de estar errado isso, mas so segui o JSON e o enunciado.
+        atleta.setCountry("BR");
+        atleta.setGender("Female");
+        atleta.setAge(18);
+        atleta.setSport("athletics");
+
+        // Chame o serviço para adicionar o atleta à seleção de atletismo
+        atletaService.adicionarAtletaSelecaoAtletismoBrasil(atleta);
+
+        return ResponseEntity.ok("Atleta adicionado com sucesso à seleção de atletismo do Brasil. Pode executar o endpoint /paris para obter a lista atualizada de pré-selecao");
+
+}
+
 
 }

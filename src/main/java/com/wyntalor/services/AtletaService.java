@@ -228,4 +228,29 @@ public class AtletaService {
         }
         return preSelecao;
     }
+    public void adicionarAtletaSelecaoAtletismoBrasil(Atleta novoAtleta) throws IOException {
+        // String que representa o caminho de destino do arquivo JSON
+        String diretorioAtual = System.getProperty("user.dir");
+        String caminhoDestino = diretorioAtual + "/src/main/resources/json/arquivo_de_atletas.json";
+
+        // Ler o conteúdo do arquivo JSON existente
+        File file = new File(caminhoDestino);
+        Atleta[] atletas;
+
+        // Verificar se o arquivo existe e se não está vazio
+        if (file.exists() && file.length() > 0) {
+            // Converter o conteúdo do arquivo em uma lista de objetos Atleta
+            atletas = objectMapper.readValue(file, Atleta[].class);
+        } else {
+            // Se o arquivo estiver vazio ou não existir, inicializar uma lista vazia
+            atletas = new Atleta[0];
+        }
+
+        // Adicionar o novo atleta à lista de atletas
+        List<Atleta> listaAtletas = new ArrayList<>(Arrays.asList(atletas));
+        listaAtletas.add(novoAtleta);
+
+        // Escrever a lista atualizada de volta para o arquivo JSON
+        objectMapper.writeValue(new File(caminhoDestino), listaAtletas);
+    }
 }
