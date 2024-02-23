@@ -8,11 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +22,7 @@ public class AtletaService {
     private final List<Atleta> atletas;
     private final ObjectMapper objectMapper;
     private HashMap<String, Atleta> atletasMap;
-
+    private static final ObjectMapper objectMapperJson = new ObjectMapper();
     public AtletaService(List<Atleta> atletas, ObjectMapper objectMapper) {
         this.atletas = atletas;
         this.objectMapper = objectMapper;
@@ -204,6 +199,32 @@ public class AtletaService {
             logger.warn("Atleta não encontrado na linha {}", linha);
             return false;
         }
+    }
 
+    public HashMap<String, Atleta> preSelecaoParis() {
+        HashMap<String, Atleta> preSelecao = new LinkedHashMap<>();
+
+        for (Map.Entry<String, Atleta> entry : atletasMap.entrySet()) {
+            Atleta atleta = entry.getValue();
+
+            // Verificar se o atleta é feminino e tem menos de 20 anos
+            if (atleta.getGender().equalsIgnoreCase("female") && atleta.getAge() < 20) {
+                // Verificar se o esporte do atleta não é futebol
+                if (!atleta.getSport().equalsIgnoreCase("football")) {
+                    // Adicionar o atleta à pré-seleção
+                    preSelecao.put(entry.getKey(), atleta);
+                }
+            }
+        } List<Atleta> listaPreSelecao = new ArrayList<>(preSelecao.values());
+        // Especificar o caminho do arquivo de destino
+        String caminhoDestino = "/json/paris_feminino.json";
+        // Escrever a lista de atletas pré-selecionados no arquivo JSON
+        try {
+            objectMapper.writeValue(new File(caminhoDestino), listaPreSelecao);
+            System.out.println("Os resultados da pré-seleção foram salvos em: " + caminhoDestino);
+        } catch (IOException e) {
+            System.err.println("Erro ao salvar os resultados da pré-seleção: " + e.getMessage());
+        }
+        return preSelecao;
     }
 }

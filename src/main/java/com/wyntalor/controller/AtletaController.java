@@ -21,8 +21,8 @@ public class AtletaController {
     }
 
     /**
-     * aqui retorna todos os atletas com o ID, esse ID sera usado para poder atualizar um atleta
-     * @return
+     * Exercicio 1 aqui retorna todos os atletas com o ID, esse ID sera usado para poder atualizar um atleta
+     * @return atletaService.processarJson();
      */
     @GetMapping("/todos")
     public HashMap<String, Atleta> obterTodosAtletas() {
@@ -30,9 +30,9 @@ public class AtletaController {
     }
 
     /**
-     * para realizar a consulta, favor seguir o exemplo no postman http://localhost:10001/esportes?codigoPais=RUS
+     * Exercicio 2 para realizar a consulta, favor seguir o exemplo no postman http://localhost:10001/esportes?codigoPais=RUS
      * @param codigoPais
-     * @return
+     * @return esportesPorPais
      */
     @GetMapping("/esportes")
     public Set<String> obterEsportesPorPais(@RequestParam String codigoPais) {
@@ -47,10 +47,10 @@ public class AtletaController {
         return esportesPorPais;
     }
     /**
-     * para realizar a consulta, favor seguir o exemplo no postman http://localhost:10001/estatisticas?codigoPais=RUS&esporte=boxing
+     * Exercicio 3  para realizar a consulta, favor seguir o exemplo no postman http://localhost:10001/estatisticas?codigoPais=RUS&esporte=boxing
      * @param codigoPais
      * @param esporte
-     * @return
+     * @return atletaService.obterEstatisticasPorPaisEEsporte(codigoPais, esporte);
      */
     @GetMapping("/estatisticas")
     public AtletaEstatisticas obterEstatisticasPorPaisEEsporte(
@@ -61,10 +61,10 @@ public class AtletaController {
     }
 
     /**
-     * para usar esse endpoint seguir o exemplo http://localhost:10001/quantidade-pessoas?esporte=boxing&idade=25
+     * Exercicio 4 para usar esse endpoint seguir o exemplo http://localhost:10001/quantidade-pessoas?esporte=boxing&idade=25
      * @param esporte
      * @param idade
-     * @return
+     * @return atletaService.obterQuantidadePessoasPorContinenteEIdade(esporte, idade);
      */
     @GetMapping("/quantidade-pessoas")
     public HashMap<String, Integer> obterQuantidadePessoasPorContinenteEIdade(
@@ -75,10 +75,10 @@ public class AtletaController {
     }
 
     /**
-     * media de BM por continente
+     * Exercicio 5 media de BM por continente
      * @param continente
      * @param genero
-     * @return
+     * @return atletaService.obterPaisMaiorMediaBMI(continente, genero);
      */
     @GetMapping("/pais-maior-media-bmi")
     public Map.Entry<String, Double> obterPaisMaiorMediaBMIContinente(
@@ -89,7 +89,7 @@ public class AtletaController {
     }
 
     /**
-     * para adicionar um atleta na seleção do brasil, seguir o json
+     * Exercicio 6 para adicionar um atleta na seleção do brasil, seguir o json
      * {
      *   "height": 180,
      *   "weight": 75,
@@ -98,7 +98,7 @@ public class AtletaController {
      *   "sport": "Football"
      * }
      * @param atleta
-     * @return
+     * @return ResponseEntity
      * @throws IOException
      */
     @PostMapping("/adicionar-atleta-selecao-futebol")
@@ -115,7 +115,7 @@ public class AtletaController {
     }
 
     /**
-     * retorna os atletas de futebol da selecao do rbasil
+     * Exercicio 7 retorna os atletas de futebol da selecao do rbasil
      * @return
      */
     @GetMapping("/atletas-brasil")
@@ -124,10 +124,10 @@ public class AtletaController {
     }
 
     /**
-     * aqui utilizamos a linha para poder atualizar um atleta juntamente com o json
+     * Exercicio 8 aqui utilizamos a linha para poder atualizar um atleta juntamente com o json
      * @param linha
      * @param atletaAtualizado
-     * @return
+     * @return HttpStatus
      */
     @PutMapping("/{linha}")
     public HttpStatus editarAtleta(
@@ -142,6 +142,15 @@ public class AtletaController {
         } else {
             return HttpStatus.NOT_FOUND;
         }
+    }
+
+    /**
+     * exercicio 9
+     * @return
+     */
+    @GetMapping("/paris")
+    public HashMap<String, Atleta> preSelecaoParis() {
+        return atletaService.preSelecaoParis();
     }
 
 }
